@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -119,7 +122,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
                             lineas[i].contains("SUMA") || 
                             lineas[i].contains("WMW") ||
                             lineas[i].contains("W(WW") ||
-                            lineas[i].contains("Wâ€˜W") || 
+                            lineas[i].contains("W?W") || 
                             lineas[i].contains("CORU") || 
                             lineas[i].contains("FROIZ") || 
                             lineas[i].contains("PONTEV") || 
@@ -147,7 +150,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
                             continue;
                         }
                     }
-                    // aÃ±adimos la linea a la lista de lineas
+                    // añadimos la linea a la lista de lineas
                     listaLineas.add(nuevaLinea);
                 }
                 
@@ -160,7 +163,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
         // ordenamos la lista de lineas
         Collections.sort(listaLineas);
         ListIterator it = listaLineas.listIterator();
-        // iteramos sobre la lista y vamos aÃ±adiendo cada linea nueva a un
+        // iteramos sobre la lista y vamos añadiendo cada linea nueva a un
         // StringBuffer
         while(it.hasNext()){
             l = it.next().toString();
@@ -176,16 +179,20 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
         String mes = Integer.toString(fecha.get(Calendar.MONTH)+1);
         if(mes.length() == 1) mes = "0" + mes;
         String ano = Integer.toString(fecha.get(Calendar.YEAR));
-        FicheroIO fio = new FicheroIO();
+        String nombreFicheroOrdenado = "ordenada_" + dia + mes + ano + ".txt";
+        /*FicheroIO fio = new FicheroIO();
         // creamos el fichero a partir del String que hemos creado
         fio.stringAFichero
-        (sb.toString(), new File("ordenada_" + dia + mes + ano + ".txt"), false);
-    
+        (sb.toString(), new File("ordenada_" + dia + mes + ano + ".txt"), false);*/
+        OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(
+        nombreFicheroOrdenado), Charset.forName("ISO-8859-1"));
+        osw.write(sb.toString());
+        osw.close();
         return null;
     }
 
     /*
-    * MÃ©todo que se ejecuta cuando cuando cambia una propiedad, en nuestro
+    * Método que se ejecuta cuando cuando cambia una propiedad, en nuestro
     * caso cuando cambiamos progress. Actualiza la barra de progreso y muestra
     * un texto al usuario.
     */
