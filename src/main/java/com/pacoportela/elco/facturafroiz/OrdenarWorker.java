@@ -176,6 +176,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
         document.close();
         Calendar fecha = Calendar.getInstance();
         String dia = Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+        if(dia.length() == 1) dia = "0" + dia;
         String mes = Integer.toString(fecha.get(Calendar.MONTH)+1);
         if(mes.length() == 1) mes = "0" + mes;
         String ano = Integer.toString(fecha.get(Calendar.YEAR));
