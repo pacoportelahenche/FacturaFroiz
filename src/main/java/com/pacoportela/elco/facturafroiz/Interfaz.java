@@ -42,6 +42,8 @@ public class Interfaz extends javax.swing.JFrame {
         menuBuscar = new javax.swing.JMenu();
         menuItemOrdenar = new javax.swing.JMenuItem();
         menuSeparar = new javax.swing.JMenuItem();
+        menuAyuda = new javax.swing.JMenu();
+        menuItemAyuda = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,6 +82,18 @@ public class Interfaz extends javax.swing.JFrame {
         menuBuscar.add(menuSeparar);
 
         jMenuBar1.add(menuBuscar);
+
+        menuAyuda.setText("Ayuda");
+
+        menuItemAyuda.setText("Ayuda");
+        menuItemAyuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemAyudaActionPerformed(evt);
+            }
+        });
+        menuAyuda.add(menuItemAyuda);
+
+        jMenuBar1.add(menuAyuda);
 
         setJMenuBar(jMenuBar1);
 
@@ -128,6 +142,47 @@ public class Interfaz extends javax.swing.JFrame {
         File factura = buscarFactura();
         paginarFactura(factura);
     }//GEN-LAST:event_menuSepararActionPerformed
+
+    private void menuItemAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAyudaActionPerformed
+        String textoAyuda = "<html><head></head><body>"
+                + "<div align=center><h1><b><u>"
+                + "Objetivo del programa</u></b></h1></div>"
+                + "<font size=4>El programa proporciona dos "
+                + "funcionalidades.<br>La primera utiliza el "
+                + "reconocimiento óptico de caracteres para "
+                + "extraer el texto de un documento PDF.<br>"
+                + "Una vez extraido el texto de todas las páginas del "
+                + "documento ordena el texto<br> por orden alfabético y "
+                + "crea un fichero con dicho texto ordenado.<br><br>"
+                + "La segunda permite separar las páginas de un documento "
+                + "PDF que contenga varias."
+                + "<div align=center><h1><b><u>"
+                + "Como usar el programa</u></b></h1></div>"
+                + "<div align=center><h2><b><u>"
+                + "Ordenar un documento</u></b></h2></div>"
+                + "<font size=4><ol><li>Pulse en la barra de menús el botón "
+                + "BUSCAR y a continuación ORDENAR.</li>"
+                + "<li>Por defecto se busca el documento PDF en la carpeta de "
+                + "Descargas.</li>"
+                + "<li>Seleccione el documento que desee ordenar.</li>"
+                + "<li>El programa comenzara a ordenar el documento mostrando "
+                + "el progreso.</li>"
+                + "<li>Una vez termine de ordenar todo el documento "
+                + "creará un fichero de texto con el nombre ordenada_ "
+                + "+ la fecha de creación.<br>En este fichero estará todo el "
+                + "texto del documento PDF ordenado por orden alfabético."
+                + "</li></ol>"
+                + "<div align=center><h2><b><u>"
+                + "Paginar un documento</u></b></h2></div>"
+                + "<font size=4><ol><li>Pulse en la barra de menús el botón "
+                + "BUSCAR y a continuación PAGINAR.</li>"
+                + "<li>Seleccione el documento que desee paginar.</li>"
+                + "<li>El programa separará las páginas del documento "
+                + "original y creará un documento PDF individual con cada una "
+                + "de ellas.</li></ol>"
+                + "</body></html>";
+        JOptionPane.showMessageDialog(this, textoAyuda, "", JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_menuItemAyudaActionPerformed
 
    private File buscarFactura(){
        File factura = null;
@@ -222,8 +277,10 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel etiquetaMensajes;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JMenu menuAyuda;
     private javax.swing.JMenu menuBuscar;
     private javax.swing.JMenu menuFichero;
+    private javax.swing.JMenuItem menuItemAyuda;
     private javax.swing.JMenuItem menuItemOrdenar;
     private javax.swing.JMenuItem menuItemSalir;
     private javax.swing.JMenuItem menuSeparar;
