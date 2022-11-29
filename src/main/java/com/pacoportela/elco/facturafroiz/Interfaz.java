@@ -15,10 +15,16 @@ import javax.swing.JProgressBar;
 /**
  *
  * @author Paco Portela Henche. Marzo 2022.
+ * Esta clase crea una interfaz que le permitirá al usuario extraer el texto
+ * de un documento PDF de una ó varias páginas, ordenarlo por orden alfabético
+ * y crear un archivo con el texto ordenado. También permite separar en páginas
+ * un documento PDF que contenga más de una. Finalmente permite también fusionar
+ * dos ó más documentos de texto y luego ordenar alfabéticamente todo el texto
+ * resultante y crear un archivo con él.
  */
 public class Interfaz extends javax.swing.JFrame {
     /**
-     * Creates new form Interfaz
+     * Constructor. Crea un nuevo objeto Interfaz.
      */
     public Interfaz() {
         initComponents();
@@ -42,6 +48,7 @@ public class Interfaz extends javax.swing.JFrame {
         menuBuscar = new javax.swing.JMenu();
         menuItemOrdenar = new javax.swing.JMenuItem();
         menuSeparar = new javax.swing.JMenuItem();
+        menuItemJuntar = new javax.swing.JMenuItem();
         menuAyuda = new javax.swing.JMenu();
         menuItemAyuda = new javax.swing.JMenuItem();
 
@@ -80,6 +87,14 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         menuBuscar.add(menuSeparar);
+
+        menuItemJuntar.setText("Juntar");
+        menuItemJuntar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemJuntarActionPerformed(evt);
+            }
+        });
+        menuBuscar.add(menuItemJuntar);
 
         jMenuBar1.add(menuBuscar);
 
@@ -123,6 +138,10 @@ public class Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método que se ejecuta cuando pulsamos el menuItem 'Ordenar'
+     * @param evt el objeto ActionEvent que contiene los datos del evento.
+     */
     private void menuItemOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemOrdenarActionPerformed
         File factura = buscarFactura();
         if(factura != null && factura.getName().contains("pdf")){
@@ -134,20 +153,34 @@ public class Interfaz extends javax.swing.JFrame {
         
     }//GEN-LAST:event_menuItemOrdenarActionPerformed
 
+    /**
+     * Método que se ejecuta cuando pulsamos el menuItem 'Salir'. Cierra el
+     * programa.
+     * @param evt el objeto ActionEvent que contiene los datos del evento.
+     */
     private void menuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_menuItemSalirActionPerformed
 
+    /**
+     * Método que se ejecuta cuando pulsamos el menuItem 'Paginar'.
+     * @param evt el objeto ActionEvent que contiene los datos del evento.
+     */
     private void menuSepararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSepararActionPerformed
         File factura = buscarFactura();
         paginarFactura(factura);
     }//GEN-LAST:event_menuSepararActionPerformed
 
+    /**
+     * Método que se ejecuta cuando pulsamos el menuItem 'Ayuda'. Muestra una
+     * pantalla de ayuda al usuario con el funcionamiento del programa.
+     * @param evt el objeto ActionEvent que contiene los datos del evento.
+     */
     private void menuItemAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAyudaActionPerformed
         String textoAyuda = "<html><head></head><body>"
                 + "<div align=center><h1><b><u>"
                 + "Objetivo del programa</u></b></h1></div>"
-                + "<font size=4>El programa proporciona dos "
+                + "<font size=4>El programa proporciona tres "
                 + "funcionalidades.<br>La primera utiliza el "
                 + "reconocimiento óptico de caracteres para "
                 + "extraer el texto de un documento PDF.<br>"
@@ -155,7 +188,10 @@ public class Interfaz extends javax.swing.JFrame {
                 + "documento ordena el texto<br> por orden alfabético y "
                 + "crea un fichero con dicho texto ordenado.<br><br>"
                 + "La segunda permite separar las páginas de un documento "
-                + "PDF que contenga varias."
+                + "PDF que contenga varias.<br><br>"
+                + "La tercera fusiona dos ó más documentos de texto y "
+                + "ordena todas las lineas por orden alfabético creando "
+                + "después un archivo con dicho texto."
                 + "<div align=center><h1><b><u>"
                 + "Como usar el programa</u></b></h1></div>"
                 + "<div align=center><h2><b><u>"
@@ -180,10 +216,32 @@ public class Interfaz extends javax.swing.JFrame {
                 + "<li>El programa separará las páginas del documento "
                 + "original y creará un documento PDF individual con cada una "
                 + "de ellas.</li></ol>"
+                + "<div align=center><h2><b><u>"
+                + "Juntar archivos</u></b></h2></div>"
+                + "<font size=4><ol><li>Pulse en la barra de menús el botón "
+                + "BUSCAR y a continuación JUNTAR.</li>"
+                + "<li>Seleccione los archivos que quiere juntar manteniendo "
+                + "pulsada la tecla CONTROL.</li>"
+                + "<li>El programa juntará todos los archivos seleccionados y "
+                + "creará un fichero de texto con el nombre 'FacturaUnida'.</li>"
                 + "</body></html>";
-        JOptionPane.showMessageDialog(this, textoAyuda, "", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(this, textoAyuda, "",
+                JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_menuItemAyudaActionPerformed
 
+    /**
+     * Método que se ejecuta cuando pulsamos el menuItem 'Juntar'.
+     * @param evt el objeto ActionEvent que contiene los datos del evento.
+     */
+    private void menuItemJuntarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemJuntarActionPerformed
+        JuntarFacturas jf = new JuntarFacturas(this);
+    }//GEN-LAST:event_menuItemJuntarActionPerformed
+
+    /**
+     * Metodo que despliega un JFileChooser para que se pueda buscar un
+     * archivo PDF.
+     * @return un objeto File que representa el archivo seleccionado.
+     */
    private File buscarFactura(){
        File factura = null;
        JFileChooser buscador = new JFileChooser("C:/Users/PACO/Downloads");
@@ -198,6 +256,9 @@ public class Interfaz extends javax.swing.JFrame {
         return factura;
    }
    
+   /**
+    * Método que cambia el icono de la interfaz.
+    */
    private void ponerIcono(){
     URL url = Interfaz.class.getResource("/froiz.jpeg");
         if(url != null){
@@ -206,6 +267,10 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }
    
+   /**
+    * Método que crea una etiqueta de aviso.
+    * @return un objeto JLabel con el aviso.
+    */
    private JLabel crearEtiquetaAviso(){
        URL url = Interfaz.class.getResource("/cabeza.png");
        ImageIcon imagen = null;
@@ -219,6 +284,9 @@ public class Interfaz extends javax.swing.JFrame {
        return eti;
    }
    
+   /**
+    * Método que muestra un aviso.
+    */
    private void sacarAviso(){
        int opcion = JOptionPane.showConfirmDialog(this,
                "Â¿Te acuerdas como era Bianca?",
@@ -234,6 +302,11 @@ public class Interfaz extends javax.swing.JFrame {
        }
    }
    
+   /**
+    * Método que crea un objeto 'PaginarFactura' para separar en páginas sueltas
+    * el fichero que se le pasa como parámetro.
+    * @param f el objeto File que contiene los datos del fichero a paginar.
+    */
    private void paginarFactura(File f){
        if(f != null && f.getName().contains("pdf")){
            PaginarFactura paginar = new PaginarFactura();
@@ -248,24 +321,24 @@ public class Interfaz extends javax.swing.JFrame {
    }
    
     /**
-     *
-     * @return
+     * Método que devuelve una referencia a este objeto 'Interfaz'.
+     * @return El objeto 'Interfaz' en uso.
      */
     public Interfaz getInterfaz(){
        return this;
    }
    
     /**
-     *
-     * @return
+     * Método que devuelve una referencia al objeto 'JLabel' etiquetaMensajes.
+     * @return El objeto 'etiquetaMensajes' de la Interfaz.
      */
     public JLabel getEtiquetaMensajes(){
        return this.etiquetaMensajes;
    }
    
     /**
-     *
-     * @return
+     * Método que devuelve una referencia al objeto JProgressBar de la interfaz.
+     * @return el objeto 'jProgressBar1' de la interfaz.
      */
     public JProgressBar getProgressBar(){
        return this.jProgressBar1;
@@ -281,6 +354,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenu menuBuscar;
     private javax.swing.JMenu menuFichero;
     private javax.swing.JMenuItem menuItemAyuda;
+    private javax.swing.JMenuItem menuItemJuntar;
     private javax.swing.JMenuItem menuItemOrdenar;
     private javax.swing.JMenuItem menuItemSalir;
     private javax.swing.JMenuItem menuSeparar;

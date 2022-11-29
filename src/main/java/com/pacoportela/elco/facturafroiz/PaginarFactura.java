@@ -20,7 +20,7 @@ public class PaginarFactura {
     }
     
     /**
-     * Este metodo separa en paginas un documento pdf.
+     * Este metodo separa en paginas un documento PDF.
      * @param factura Un objeto File que contiene la factura a paginar.
      * @throws IOException Lanza una excepcion de entrada/salida.
      */
@@ -39,13 +39,11 @@ public class PaginarFactura {
           int i = 0;
           while(iterator.hasNext()) {
              PDDocument pd = iterator.next();
-             // provide destination path to the PDF split
-             //pd.save("/home/tk/pdfs/sample_part_"+ ++i +".pdf");
              pd.save("pagina_" + ++i + ".pdf");
              System.out.println("Grabado el fichero pagina_"+ i +".pdf");
           }
           System.out.println("El fichero pdf proporcionado a sido separado en "
-                  + i + "pÃ¡ginas.");
+                  + i + "paginas.");
           document.close();
 
     }

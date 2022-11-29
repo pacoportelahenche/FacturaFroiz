@@ -5,14 +5,14 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 import javax.swing.SwingWorker;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
@@ -57,7 +57,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
     /*
     * Metodo que ejecuta la tarea en segundo plano. Permite actualizar la
     * propiedad progress, que podemos visualizar en la barra de progresos.
-    * En este caso lo que hacemos aqui es recorrer el documento pdf pagina
+    * En este caso lo que hacemos aqui es recorrer el documento PDF pagina
     * por pagina y utilizando las capacidades de la clase ITesseract
     * convertimos las imagenes del pdf en texto legible. Obtenemos dicho texto,
     * lo vamos guardando linea por linea y finalmente lo ordenamos y creamos
@@ -70,7 +70,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
         // actualizamos la propiedad progress.
         this.setProgress(progreso);
         // creamos la lista que contendra la lineas de texto.
-        List<String> listaLineas = new ArrayList<String>();
+        List<String> listaLineas = new ArrayList<>();
         // cargamos el documento pdf
         PDDocument document = PDDocument.load(factura); 
         PDFRenderer pdfRenderer = new PDFRenderer(document);
@@ -158,22 +158,11 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
                 System.out.println(ex.toString());
             }
         }
-        StringBuilder sb = new StringBuilder();
-        String l = "";
         // ordenamos la lista de lineas
         Collections.sort(listaLineas);
-        ListIterator it = listaLineas.listIterator();
-        // iteramos sobre la lista y vamos añadiendo cada linea nueva a un
-        // StringBuffer
-        while(it.hasNext()){
-            l = it.next().toString();
-            if(l.length() > 0){
-                sb.append(l).append("\n");
-                System.out.println(l);
-            }
-                        
-        }
+        // cerramos el documento
         document.close();
+        // obtenemos la fecha del día para crear el nombre del fichero.
         Calendar fecha = Calendar.getInstance();
         String dia = Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
         if(dia.length() == 1) dia = "0" + dia;
@@ -181,14 +170,12 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
         if(mes.length() == 1) mes = "0" + mes;
         String ano = Integer.toString(fecha.get(Calendar.YEAR));
         String nombreFicheroOrdenado = "ordenada_" + dia + mes + ano + ".txt";
-        /*FicheroIO fio = new FicheroIO();
-        // creamos el fichero a partir del String que hemos creado
-        fio.stringAFichero
-        (sb.toString(), new File("ordenada_" + dia + mes + ano + ".txt"), false);*/
-        OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(
-        nombreFicheroOrdenado), Charset.forName("ISO-8859-1"));
-        osw.write(sb.toString());
-        osw.close();
+        // escribimos el fichero en el disco.
+        Files.write(Paths.get(nombreFicheroOrdenado),
+                listaLineas,
+                Charset.forName("ISO_8859_1"),
+                StandardOpenOption.CREATE,
+                StandardOpenOption.TRUNCATE_EXISTING);
         return null;
     }
 
@@ -199,7 +186,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if("progress" == evt.getPropertyName()){
+        if("progress".equals(evt.getPropertyName())){
             contador++;
             int progress = (Integer) evt.getNewValue();
             interfaz.getProgressBar().setValue(progress);
