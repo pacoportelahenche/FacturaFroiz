@@ -23,15 +23,19 @@ import javax.swing.JFileChooser;
 
 /**
  *
- * @author Paco Poetela Henche
- * @date 28-nov-2022
  * El objeto de esta clase es obtener los datos de dos ó más ficheros de texto
  * para juntar todos los datos ordenados en otro fichero.
+ * @author Paco Poetela Henche 28-nov-2022
  */
 
 public class JuntarFacturas {
     Interfaz interfaz;
     
+    /**
+     * Constructor de la clase.
+     * @param interfaz Una referecia al objeto 'Interfaz' desde el que
+     * trabajamos.
+     */
     public JuntarFacturas(Interfaz interfaz){
         this.interfaz = interfaz;
         try {
@@ -42,6 +46,11 @@ public class JuntarFacturas {
         }
     }
     
+    /**
+     * Método utilizado para obtener los ficheros que se van a juntar en uno.
+     * @return Una matriz de objetos 'File' que contiene los ficheros que vamos
+     * a utilizar.
+     */
     private  File[] obtenerFicheros(){
         File[] ficheros = null;
         JFileChooser buscador = 
@@ -54,6 +63,13 @@ public class JuntarFacturas {
         return ficheros;
     }
     
+    /**
+     * Método que extrae el texto de los ficheros que le llegan como parámetro
+     * para luego juntarlo y ordenarlo para finalmente crear un nuevo fichero
+     * con dicho texto.
+     * @param ficheros Los ficheros de los que extraeremos el texto.
+     * @throws IOException 
+     */
     private void juntarYOrdenar(File[] ficheros) throws IOException{
         List<Path> listaPaths = new ArrayList();
         List<String> listaLineas = new ArrayList();

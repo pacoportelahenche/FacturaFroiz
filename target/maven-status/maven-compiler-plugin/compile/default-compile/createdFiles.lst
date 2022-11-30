@@ -1,4 +1,4 @@
-com\pacoportela\elco\facturafroiz\FicheroIO.class
+com\pacoportela\elco\facturafroiz\JuntarFacturas.class
 com\pacoportela\elco\facturafroiz\Interfaz$4.class
 com\pacoportela\elco\facturafroiz\Main.class
 com\pacoportela\elco\facturafroiz\PaginarFactura.class
@@ -6,4 +6,5 @@ com\pacoportela\elco\facturafroiz\Interfaz$3.class
 com\pacoportela\elco\facturafroiz\Interfaz.class
 com\pacoportela\elco\facturafroiz\OrdenarWorker.class
 com\pacoportela\elco\facturafroiz\Interfaz$2.class
+com\pacoportela\elco\facturafroiz\Interfaz$5.class
 com\pacoportela\elco\facturafroiz\Interfaz$1.class

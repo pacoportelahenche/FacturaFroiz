@@ -1,7 +1,7 @@
 package com.pacoportela.elco.facturafroiz;
 
 /**
- *
+ *Clase que arranca la ejecución del proyecto.
  * @author Paco Portela Henche. Marzo 2022.
  */
 public class Main {

@@ -13,14 +13,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
 /**
- *
- * @author Paco Portela Henche. Marzo 2022.
  * Esta clase crea una interfaz que le permitirá al usuario extraer el texto
  * de un documento PDF de una ó varias páginas, ordenarlo por orden alfabético
  * y crear un archivo con el texto ordenado. También permite separar en páginas
  * un documento PDF que contenga más de una. Finalmente permite también fusionar
  * dos ó más documentos de texto y luego ordenar alfabéticamente todo el texto
  * resultante y crear un archivo con él.
+ * @author Paco Portela Henche. Marzo 2022.
  */
 public class Interfaz extends javax.swing.JFrame {
     /**

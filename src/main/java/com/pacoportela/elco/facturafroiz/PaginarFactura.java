@@ -7,7 +7,8 @@ import java.util.List;
 import org.apache.pdfbox.multipdf.Splitter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 /**
- *
+ * Esta clase nos permite separar en páginas individuales un documento PDF
+ * que contenga varias páginas.
  * @author Paco Portela Henche. Marzo 2022.
  */
 public class PaginarFactura {

@@ -23,11 +23,11 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 
 /**
  *
- * @author Paco Portela Henche. Marzo 2022.
  * Esta clase extiende de la clase SwingWorker que nos permite ejecutar una
  * tarea de larga duracion en segundo plano. Actualizando la propiedad progress
  * podemos gestionar una barra de progreso que mostraremos al usuario para 
  * informarle del progreso de dicha tarea.
+ * @author Paco Portela Henche. Marzo 2022.
  */
 public class OrdenarWorker extends SwingWorker<Void, Void> 
         implements PropertyChangeListener{
