@@ -121,6 +121,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
                             lineas[i].contains("LOTE") || 
                             lineas[i].contains("SUMA") || 
                             lineas[i].contains("WMW") ||
+                            lineas[i].contains("W?W") ||
                             lineas[i].contains("W(WW") ||
                             lineas[i].contains("W?W") || 
                             lineas[i].contains("CORU") || 
@@ -146,12 +147,9 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
                             nuevaLinea = lineas[i].substring(j);
                             break;
                         }
-                        else{
-                            continue;
-                        }
                     }
                     // añadimos la linea a la lista de lineas
-                    listaLineas.add(nuevaLinea);
+                    if(nuevaLinea.length() > 0) listaLineas.add(nuevaLinea);
                 }
                 
             } catch (TesseractException ex) {
@@ -173,7 +171,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
         // escribimos el fichero en el disco.
         Files.write(Paths.get(nombreFicheroOrdenado),
                 listaLineas,
-                Charset.forName("ISO_8859_1"),
+                Charset.forName("UTF_16"),
                 StandardOpenOption.CREATE,
                 StandardOpenOption.TRUNCATE_EXISTING);
         return null;

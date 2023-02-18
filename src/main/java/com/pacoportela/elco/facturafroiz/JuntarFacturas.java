@@ -88,7 +88,7 @@ public class JuntarFacturas {
         while(ite.hasNext()){
             System.out.println(ite.next().toString());
         }
-        Files.write(Paths.get("FacturaUnida"), listaTotal,
+        Files.write(Paths.get("FacturaUnida.txt"), listaTotal,
                 Charset.forName("ISO_8859_1"),
                 StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
