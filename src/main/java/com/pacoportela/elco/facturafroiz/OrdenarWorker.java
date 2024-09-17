@@ -35,15 +35,17 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
     File factura;
     int contador = 0;
     boolean servidos = false;
+    boolean ordenar = true;
     
     /**
      * Constructor.
      * @param in la interfaz donde presentaremos la barra de progreso.
      * @param fact el fichero que contiene la factura que vamos a ordenar.
      */
-    public OrdenarWorker(Interfaz in, File fact){
+    public OrdenarWorker(Interfaz in, File fact, boolean ordenar){
         this.interfaz = in;
         this.factura = fact;
+        this.ordenar = ordenar;
     }
     
     /*
@@ -51,7 +53,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
     */
     @Override
     public void done(){
-        interfaz.getEtiquetaMensajes().setText("FACTURA ORDENADA!");
+        interfaz.getEtiquetaMensajes().setText("¡FACTURA PREPARADA!");
     }
 
     /*
@@ -113,6 +115,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
                     // si la linea contiene alguna de estas palabras no la
                     // guardamos y continuamos con la siguiente
                     if(     servidos ||
+                            lineas[i].contains("POIO") ||
                             lineas[i].contains("PEDIDO") || 
                             lineas[i].contains("SALDO") || 
                             lineas[i].contains("ALBARAN") || 
@@ -156,8 +159,10 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
                 System.out.println(ex.toString());
             }
         }
-        // ordenamos la lista de lineas
-        Collections.sort(listaLineas);
+        // ordenamos alfabeticamente 
+        //la lista de lineas si es que las queremos ordenadas.
+        if(ordenar) Collections.sort(listaLineas);
+        
         // cerramos el documento
         document.close();
         // obtenemos la fecha del día para crear el nombre del fichero.
@@ -167,9 +172,17 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
         String mes = Integer.toString(fecha.get(Calendar.MONTH)+1);
         if(mes.length() == 1) mes = "0" + mes;
         String ano = Integer.toString(fecha.get(Calendar.YEAR));
-        String nombreFicheroOrdenado = "ordenada_" + dia + mes + ano + ".txt";
+        String nombreFichero= "";
+        if(ordenar){
+            nombreFichero = "ordenada_" + dia + mes + ano + ".txt";
+        }
+        else{
+            nombreFichero = "noOrdenada_" + dia + mes + ano + ".txt";
+        }
+        
+        
         // escribimos el fichero en el disco.
-        Files.write(Paths.get(nombreFicheroOrdenado),
+        Files.write(Paths.get(nombreFichero),
                 listaLineas,
                 Charset.forName("UTF_16"),
                 StandardOpenOption.CREATE,
@@ -189,7 +202,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
             int progress = (Integer) evt.getNewValue();
             interfaz.getProgressBar().setValue(progress);
             interfaz.getEtiquetaMensajes()
-                    .setText("ORDENANDO PAGINA: " + contador);
+                    .setText("PAGINA: " + contador);
         }
     }
     

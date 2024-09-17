@@ -48,6 +48,7 @@ public class Interfaz extends javax.swing.JFrame {
         menuItemOrdenar = new javax.swing.JMenuItem();
         menuSeparar = new javax.swing.JMenuItem();
         menuItemJuntar = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuAyuda = new javax.swing.JMenu();
         menuItemAyuda = new javax.swing.JMenuItem();
 
@@ -94,6 +95,14 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         menuBuscar.add(menuItemJuntar);
+
+        jMenuItem1.setText("NoOrdenar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemNoOrdenarActionPerformed(evt);
+            }
+        });
+        menuBuscar.add(jMenuItem1);
 
         jMenuBar1.add(menuBuscar);
 
@@ -145,7 +154,7 @@ public class Interfaz extends javax.swing.JFrame {
         File factura = buscarFactura();
         if(factura != null && factura.getName().contains("pdf")){
             this.etiquetaMensajes.setText("ESPERE POR FAVOR...");
-            OrdenarWorker ordenar = new OrdenarWorker(this, factura);
+            OrdenarWorker ordenar = new OrdenarWorker(this, factura, true);
             ordenar.addPropertyChangeListener(ordenar);
             ordenar.execute();
         }
@@ -235,6 +244,16 @@ public class Interfaz extends javax.swing.JFrame {
     private void menuItemJuntarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemJuntarActionPerformed
         JuntarFacturas jf = new JuntarFacturas(this);
     }//GEN-LAST:event_menuItemJuntarActionPerformed
+
+    private void menuItemNoOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemNoOrdenarActionPerformed
+        File factura = buscarFactura();
+        if(factura != null && factura.getName().contains("pdf")){
+            this.etiquetaMensajes.setText("ESPERE POR FAVOR...");
+            OrdenarWorker ordenar = new OrdenarWorker(this, factura, false);
+            ordenar.addPropertyChangeListener(ordenar);
+            ordenar.execute();
+        }
+    }//GEN-LAST:event_menuItemNoOrdenarActionPerformed
 
     /**
      * Metodo que despliega un JFileChooser para que se pueda buscar un
@@ -348,6 +367,7 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel etiquetaMensajes;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JMenu menuAyuda;
     private javax.swing.JMenu menuBuscar;
